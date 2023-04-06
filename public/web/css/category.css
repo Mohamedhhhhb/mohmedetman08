@@ -1,0 +1,34 @@
+.categories {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  z-index: 5;
+  position: relative;
+}
+.categories .cate-item {
+  margin-bottom: 40px;
+}
+.categories .cate-item .img-wrapper img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin-right: 35px;
+}
+.categories .cate-item .description h4 {
+  font-size: calc(1.5rem + 0.3vw);
+  text-transform: capitalize;
+}
+.categories .cate-item .description p {
+  font-size: 22px;
+}
+.categories .cate-item .cate-wrapper {
+  position: relative;
+  padding-bottom: 20px;
+}
+.categories .cate-item .cate-wrapper::after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background-color: #acacac;
+  top: 100%;
+}
