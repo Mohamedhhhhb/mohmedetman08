@@ -10,10 +10,17 @@
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
         <link rel="stylesheet" href="{{asset('web/css/style.css')}}" >
     </head>
-
     <body>
         <div class="title">
             <div class="container">
+                <div class="col-12">
+                    @php
+                      $url = url()->full();
+                      $pos = strpos($url, app()->getLocale());
+                    @endphp
+                    <a href="{{ substr_replace($url,"en",$pos,2) }}" class="btn btn-info"> English</a>
+                    <a href="{{ substr_replace($url,"ar",$pos,2) }}" class="btn btn-primary"> Arabic</a>
+                    </div>
                 <div class="logo text-center w-50">
                     <img src="{{asset('web/imgs/logo.png')}}" alt="" class="w-100">
                 </div>
@@ -27,7 +34,7 @@
                         <div class="row gx-1">
                             <div class="col-9">
                                 <div class="item-caption">
-                                    <h3>{{$category->name}}</h3>
+                                    <h3>{{$category->name_ar}}</h3>
                                 </div>
                             </div>
                             <div class="col-3">

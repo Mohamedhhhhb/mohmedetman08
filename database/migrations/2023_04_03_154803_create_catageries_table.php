@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('catageries', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('descrptions');
+            $table->string('name_en');
+            $table->string('descrptions_en');
             $table->string('image');
             $table->string('price');
             $table->timestamps();

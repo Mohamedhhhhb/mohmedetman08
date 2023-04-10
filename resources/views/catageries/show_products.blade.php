@@ -48,13 +48,22 @@
                     @endphp
                     <tr>
                         <td>{{ $i }}</td>
-
+                        @if (App::isLocale('ar'))
                         <td>
 
-                            {{ $category->name }}
+                            {{ $category->name_ar }}
 
                         </td>
-                        <td>{{ $category->descrptions }}</td>
+                        <td>{{ $category->descrptions_ar }}</td>
+                        @endif
+                        @if (App::isLocale('en'))
+                        <td>
+
+                            {{ $category->name_en }}
+
+                        </td>
+                        <td>{{ $category->descrptions_en }}</td>
+                        @endif
                         </td>
                             <td>
                                 <img src="{{ url('public/Image/' . $category->image) }}" style="height: 50px; width: 50px;">

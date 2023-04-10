@@ -2,6 +2,47 @@
 
 @extends('dashboard.layouts.app')
 @section('content')
+<style>
+
+    .form-div {
+      margin: 50px auto 50px;
+      padding: 25px 15px 10px 15px;
+      border: 4px solid #80ced7;
+      border-radius: 30px;
+      font-size: 1.1em;
+      font-family: 'Merriweather&display=swap', serif;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+    }
+
+    form p {
+      font-size: .89;
+    }
+
+    .form-div.login {
+      margin-top: 100px;
+    }
+
+    .logout {
+      color: red;
+    }
+
+    .form-field {
+      display: flex;
+    }
+
+    .form-group {
+      width: 100%;
+    }
+
+    .form-group label {
+      width: 120px;
+      display: inline-block;
+    }
+
+    </style>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -37,52 +78,58 @@
     <form action="{{url(app()->getlocale().'/products/update')}}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         {{ method_field('put') }}
-        <input type="text" value="{{$i->id}}"name="id" hidden="true">
-  <div class="card-body">
-
-    <div class="form-group">
-        <label for="exampleInputEmail1">@lang('site.ar.name')</label>
-        <input value="{{$i->name}}" type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter name">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">@lang('site.ar.description')</label>
-        <input value = "{{$i->descrptions}}"type="textarea" name="descrption" class="form-control" id="exampleInputPassword1" placeholder="Enter Descrption">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">@lang('site.price')</label>
-        <input value="{{$i->price}}"  type="text" name="price" class="form-control" id="exampleInputEmail1" placeholder="Enter price">
-      </div>
-
-      <div class="form-group">
-        <label for="">@lang('site.image')</label>
-        <input value="{{$i->image}}" type="file" name="image" class="course form-control">
+        <input type="text" value="{{$i->id}}"name="id1" hidden="true">
+        <input type="text" value="{{$i1->id}}"name="id2" hidden="true">
+<div class="card-body">
+    <div class="form-field">
+        <div class="form-group">
+          <label for="fname">Name in En</label>
+          <input type="text" name="name_en" value="{{$i->name_en}}" class="form-control form-control-lg">
         </div>
         <div class="form-group">
-            <label for="inputName" class="control-label">القسم</label>
-            <select  name="Section" class="form-control SlectBox" onclick="console.log($(this).val())"
-                onchange="console.log('change is firing')">
+          <label for="lname">Name in Ar</label>
+          <input type="text" name="name_ar" value="{{$i1->name_ar}}" class="form-control form-control-lg">
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="form-group">
+          <label for="description">description in En</label>
+          <input type="text" name="description_en" value="{{$i->descrptions_en}}" class="form-control form-control-lg">
+        </div>
+        <div class="form-group">
+          <label for="description">description in Ar</label>
+          <input type="text" name="description_ar" value="{{$i1->descrptions_ar}}"class="form-control form-control-lg">
+        </div>
+      </div>
+      <div class="form-field">
+        <div class="form-group" style="width:80%">
+          <label for="phone">Price</label>
+          <input type="number" name="price" value="{{$i->price}}" class="form-control form-control-lg">
+        </div>
 
-                <option value="{{$i->catageries_arbic_id }}" selected disabled>حدد القسم</option>
-                @foreach ($x as $section)
+      </div>
+      <div class="form-group" style="width:80%">
+        <label for="image">Image</label>
+        <input type="file" name="image" class="form-control form-control-lg">
+      </div>
+      <div class="form-group">
+        <label for="inputName" class="control-label"></label>
+        <select name="section" class="form-control SlectBox" onclick="console.log($(this).val())"
+            onchange="console.log('change is firing')">
 
+            <option value="" selected disabled>@lang('site.category')</option>
+            @foreach ($x as $section)
 
+<option value="{{ $section->id }}"> {{ $section->name_en}} </option>
+@endforeach
 
-
-
-    <option  value="{{ $section->id }}"> {{ $section->name }}</option>
-    @endforeach
 </select>
-
-
 </div>
 
 
 
-
-
-
 <div class="card-footer">
-<button type="submit" class="btn btn-primary">@lang('site.update')</button>
+<button type="submit" class="btn btn-primary">@lang('site.add')</button>
 </div>
 </form>
 

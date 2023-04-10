@@ -10,55 +10,24 @@
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
         <link rel="stylesheet" href="{{asset('web/css/style.css')}}">
     </head>
-
-    {{-- @foreach ($x as $index=>$category)
-    @php
-    $i ++;
-
-@endphp
-        <tr>
-            <td>{{ $i }}</td>
-
-            <td><a href="{{url('catageries')}}/{{$category->id}}">
-                {{ $category->name }}
-            </a>
-            </td>
-            <td>{{ $category->descrptions }}</td>
-            <td>{{ $category->price }}</td>
-
-
-            <td>
-                <img src="{{ url('public/Image/'.$category->image) }}"
-                style="height: 100px; width: 150px;">
-            </td>
-
-
-
-
-            <td>
-                <a href="{{url('catageries/edit')}}/{{$category->id}}">edit</a>
-                <a href="{{url('catageries/delete')}}/{{$category->id}}">delete</a>
-            </td>
-
-
-
-        </tr>
-
-    @endforeach --}}
-
-
-
-
-
-
-
     <body>
 
         <div class="title">
             <div class="container">
+                <div class="col-12">
+                    {{-- Splitting url so that locale can be set to url and    after redirection stays on the same page --}}
+                    @php
+                      $url = url()->full();
+                      $pos = strpos($url, app()->getLocale());
+                    @endphp
+                    <a href="{{ substr_replace($url,"en",$pos,2) }}" class="btn btn-info"> English</a>
+                    <a href="{{ substr_replace($url,"ar",$pos,2) }}" class="btn btn-primary"> Arabic</a>
+                    </div>
                 <div class="logo text-center w-50">
 
                     <img src="{{asset('web/imgs/logo.png')}}" alt="" class="w-100">
+
+
                 </div>
             </div>
         </div>
@@ -71,7 +40,7 @@
                         <div class="row gx-1">
                             <div class="col-9">
                                 <div class="item-caption">
-                                    <h3>{{$category->name}}</h3>
+                                    <h3>{{$category->name_en}}</h3>
                                 </div>
                             </div>
                             <div class="col-3">

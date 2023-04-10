@@ -26,15 +26,16 @@ class ProductsController extends Controller
     public function create()
     {
         if(Auth::check()){
-            if (App::isLocale('en')) {
+
                 $x= Catageries::all();
-                return view('products.add',compact('x'));
-            }elseif (App::isLocale('ar')) {
-                $x= CatageriesArbic::all();
-                return view('products.add',compact('x'));
+                $y= CatageriesArbic::all();
+                return view('products.add',compact('x','y'));
+
+
+               // return view('products.add',compact('x'));
+
             }
-        }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 
@@ -49,17 +50,22 @@ class ProductsController extends Controller
 
 
     public function store(Request $request)
-    { if(Auth::check()){
+    {
+        //return $request;
+        if(Auth::check()){
 
-        if (App::isLocale('en')) {
+
             $request->validate([
-                'name' => 'required|unique:products|max:255',
-                'descrption' => 'required',
+                'name_en' => 'required|unique:products|max:255',
+                'name_ar' => 'required|unique:products_arbics|max:255',
+                'description_ar' => 'required',
+                'description_en' => 'required',
                 'image'=>'required',
                 'price'=>'required',
-                'Section'=>'required'
-
+                'section'=>'required'
             ]);
+          //  return $request ;
+           // return "rvfvv";
 
             $filename="";
             if($request->file('image')){
@@ -68,46 +74,56 @@ class ProductsController extends Controller
                $file-> move(public_path('public/Image'), $filename);
            }
            Products::create([
-                    'name' =>  $request->name,
-                    'descrptions'=>$request->descrption,
+                    'name_en' =>  $request->name_en,
+                    'descrptions_en'=>$request->description_en,
                     'image'=>$filename,
                     'price'=>$request->price,
-                    'catageries_id'=>$request->Section,
+                    'catageries_id'=>$request->section,
                  ]);
 
-           return redirect()->back();
-        }
-        elseif (App::isLocale('ar')) {
-            $request->validate([
-                'name' => 'required|unique:products_arbics|max:255',
-                'descrption' => 'required',
-                'image'=>'required',
-                'price'=>'required',
-                'Section'=>'required'
 
-            ]);
 
-            $filename="";
-            if($request->file('image')){
-               $file= $request->file('image');
-               $filename= date('YmdHi').$file->getClientOriginalName();
-               $file-> move(public_path('public/Image'), $filename);
-           }
+
+             //    INSERT INTO `products_arbics` (`id`, `name_ar`, `price`, `image`, `descrptions_ar`
+             //, `catageries_arbic_id`, `created_at`, `updated_at`)
+             // VALUES (NULL, 'fqf', 'fqwfqf', 'rfre', 'rffr', '3', NULL, NULL);
+
+
+
+
+
+
+
+
+
+
+
+
+                //  ProductsArbic::create([
+                //     'name_ar' =>  $request->name_ar,
+                //     'descrptions_ar'=>$request->description_ar,
+                //     'image'=>$filename,
+                //     'price'=>$request->price,
+                //     'catageries_arbic_id'=>'4',
+                //  ]);
+               // return $request ->section;
+              //$t=$request ->section;
+             //  return $t;
            DB::table('products_arbics')->insert(
             array(
-                'name' =>  $request->name,
-                'descrptions'=>$request->descrption,
+                'name_ar' =>  $request->name_ar,
+                'descrptions_ar'=>$request->description_ar,
                 'price'=>$request->price,
-                'catageries_arbic_id'=>$request->Section,
+                'catageries_arbic_id'=>$request->section,
                 'image'=>$filename,
             )
        );
 
 
-           return redirect()->back();
+           return redirect('/products/show');
         }
-    }
-    return redirect("login")->withSuccess('You are not allowed to access');
+
+    return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 
@@ -120,18 +136,15 @@ class ProductsController extends Controller
     public function show()
     {
         if(Auth::check()){
-            if (App::isLocale('en')) {
-                $p=Products::all();
-                return view('products.show',compact('p'));
-            }
-            if (App::isLocale('ar')) {
-                $p=ProductsArbic::all();
-               // return $p;//->section_ar;
-                return view('products.show',compact('p'));
 
-            }
+                $p=Products::all();
+                $x=ProductsArbic::all();
+
+                return view('products.show',compact('p','x'));
+
+
         }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 
@@ -145,23 +158,14 @@ class ProductsController extends Controller
     public function edit($id)
     {
         if(Auth::check()){
-            if (App::isLocale('en')){
-                $i= Products::findOrFail($id);
+                $i=Products::findOrFail($id);
+                $i1=ProductsArbic::findOrFail($id);
                 $x=Catageries::all();
+                $x1=CatageriesArbic::all();
 
-                   return view('products.edit',compact('i','x'));
-            }
-            else if (App::isLocale('ar')) {
-                $i= ProductsArbic::findOrFail($id);
-               // $i= DB::table('ProductsArbics')->where('id', $id)->first();
-                $x=CatageriesArbic::all();
-                   return view('products.edit',compact('i','x'));
-
-
+                   return view('products.edit',compact('i','x','x1','i1'));
         }
-
-        }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 
@@ -177,15 +181,15 @@ class ProductsController extends Controller
      */
     public function update(Request $request, products $products)
     { if(Auth::check()){
-        if (App::isLocale('en')){
-            $request->validate([
-                'name' => 'required|max:255',
-                'descrption' => 'required',
-                'image'=>'required',
-                'price'=>'required',
-                'Section'=>'required'
 
-            ]);
+            // $request->validate([
+            //     'name_en' => 'required|max:255',
+            //     'descrption_en' => 'required',
+            //     'image'=>'required',
+            //     'price'=>'required',
+            //     'section'=>'required'
+
+            // ]);
 
             $filename="";
             if($request->file('image')){
@@ -196,52 +200,24 @@ class ProductsController extends Controller
             $c= DB::table('products')
             ->where('id',$request->id)
             ->update([
-              'name' =>  $request->name,
-              'descrptions'=>$request->descrption,
-              'catageries_id'=>$request->Section,
+              'name_en' =>  $request->name_en,
+              'descrptions_en'=>$request->description_en,
+              'catageries_id'=>$request->section,
               'price'=>$request->price,
               'image'=>$filename,
       ]);
 
-      return redirect('products/show');
-        }
-        else {
-            $request->validate([
-                'name' => 'required|max:255',
-                'descrption' => 'required',
-                'image'=>'required',
-                'price'=>'required',
-                'Section'=>'required'
-
-            ]);
-
-            $filename="";
-            if($request->file('image')){
-               $file= $request->file('image');
-               $filename= date('YmdHi').$file->getClientOriginalName();
-               $file-> move(public_path('public/Image'), $filename);
-           }
             $c= DB::table('products_arbics')
-            ->where('id',$request->id)
+            ->where('id',$request->id1)
             ->update([
-              'name' =>  $request->name,
-              'descrptions'=>$request->descrption,
-              'catageries_arbic_id'=>$request->Section,
+              'name_ar' =>  $request->name_ar,
+              'descrptions_ar'=>$request->description_ar,
+              'catageries_arbic_id'=>$request->section,
               'image'=>$filename,
               'price'=>$request->price,
       ]);
-
-      return redirect('products/show');
-        }
-
     }
-    return redirect("login")->withSuccess('You are not allowed to access');
-
-
-
-
-
-
+    return redirect("admin")->withSuccess('You are not allowed to access');
     }
 
     /**
@@ -252,17 +228,17 @@ class ProductsController extends Controller
 
         if(Auth::check()){
             if (App::isLocale('en')){
-                $res= Products::where('id',$id)->delete();
+                $res= Products::where('id',$id)->truncate();
                 return redirect('products/show');
 
             }
             if (App::isLocale('ar')){
-                $res=ProductsArbic::where('id',$id)->delete();
+                $res=ProductsArbic::where('id',$id)->truncate();
                 return redirect('products/show');
 
             }
         }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 

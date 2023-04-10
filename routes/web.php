@@ -21,7 +21,8 @@ Route::group(
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
 
-Route::get('/login', [UserController::class, 'index']);
+// Route::get('/login', [UserController::class, 'index']);
+Route::get('/admin', [UserController::class, 'index']);
 Route::post('/post_login', 'App\Http\Controllers\UserController@login')->name('postlogin');
 // Route::get('/home', [CatageriesController::class, 'index']);
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -42,20 +43,10 @@ Route::get('/products/edit/{id}', [ProductsController::class, 'edit']);
 Route::put('/products/update', [ProductsController::class, 'update']);
 Route::get('/products/delete/{id}', [ProductsController::class, 'destroy']);
 ///////////////////////////////////////////////////////////////////////////////////////////
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/home/catageries', [HomeController::class, 'show']);
 Route::get('/catageries/show/{id}', [HomeController::class, 'show']);
     });
-
-
-
-
-
-
-
-
-
-
 // Route::get('/catageries', [CatageriesController::class, 'index']);
 // Route::get('/catageries/show', [CatageriesController::class, 'show']);
 // Route::post('/catageries/store', [CatageriesController::class, 'store']);

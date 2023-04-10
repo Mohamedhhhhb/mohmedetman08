@@ -15,6 +15,14 @@
               <li class="breadcrumb-item"><a href="{{url('catageries/show')}}">@lang('site.categories')</a></li>
               <li class="breadcrumb-item active"> @lang('site.show')</li>
             </ol>
+            <ul>
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <li>
+                        <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                            {{ $properties['native'] }}
+                        </a>
+                    </li>
+                </ul>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -49,12 +57,20 @@
     @endphp
             <tr>
                 <td>{{ $i }}</td>
+                @if (App::isLocale('en'))
+                <td>
+                    {{ $category->name_en}}
 
+                </td>
+                <td>{{ $category->descrptions_en }}</td>
+                @endif
+                @if (App::isLocale('ar'))
                 <td><a href="{{url('catageries')}}/{{$category->id}}">
-                    {{ $category->name }}
+                    {{ $category->name_ar}}
                 </a>
                 </td>
-                <td>{{ $category->descrptions }}</td>
+                <td>{{ $category->descrptions_ar}}</td>
+                @endif
                 <td>{{ $category->price }}</td>
 
 

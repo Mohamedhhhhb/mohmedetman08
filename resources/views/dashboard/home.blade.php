@@ -13,7 +13,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{url('home')}}">@lang('site.dashboard')</a></li>
+              <li class="breadcrumb-item"><a href="{{url('dashboard')}}">@lang('site.dashboard')</a></li>
               <li class="breadcrumb-item active">Home</li>
             </ol>
           </div><!-- /.col -->

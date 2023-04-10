@@ -11,21 +11,47 @@
         <link rel="stylesheet" href="{{asset('web/css/category.css')}}">
         <link rel="stylesheet" href="{{asset('web/css/style.css')}}"  >
     </head>
-
+    <style>
+        .b {
+            display:table;
+            width:100%;
+        }
+        .b span {
+            display:table-cell;
+            vertical-align:middle;
+            padding: 10px 5px 10px 10px;
+        }
+        .b h4 {
+            padding: 10px 10px 10px 5px;
+            word-break:break-all;
+        }
+        </style>
     <body>
         <div class="categories">
+
+            @if (App::isLocale('en'))
 
             @foreach ($x as $index=>$category)
             <div class="cate-item">
                 <div class="container">
+
+                    <div class="b" style="border: 1px solid rgba(51, 51, 51, 0.4); background: rgba(51, 51, 51, 0.1);">
+
+                        <h4 class="heading" style="text-align: center;">
+                            {{$category->section->name_en}}
+                        </h4>
+                    </div>
                     <div class="cate-wrapper d-flex gx-4 align-items-center">
                         <div class="img-wrapper">
                             <img src="{{ url('public/Image/'.$category->image) }}"
-                            style="height: 200px; width: 150px;">
+                            style="height: 150px; width: 150px;">
                         </div>
-                        <div class="description">
-                            <h4>{{$category->name}}</h4>
-                            <p>{{$category->price}}</p>
+                        <div class="description" style="margin-top:5px">
+                            <h4>{{$category->name_en}}</h4>
+                            <h4>{{$category->descrptions_en}}</h4>
+                            <p>{{$category->price}} <img style="margin-top:5px" width="7%" src="{{asset('web/imgs/1.png')}}" alt=""></p>
+
+                            {{-- <i class="fa fa-dollar" style="font-size:48px;color:red"></i> --}}
                         </div>
                     </div>
                 </div>
@@ -33,6 +59,49 @@
 
 
 @endforeach
+
+            @endif
+
+
+            @if (App::isLocale('ar'))
+
+            @foreach ($x as $index=>$category)
+            <div class="cate-item">
+                <div class="container">
+
+                    <div class="b" style="border: 1px solid rgba(51, 51, 51, 0.4); background: rgba(51, 51, 51, 0.1);">
+
+                        <h4 class="heading" style="text-align: center;">
+                            {{$category->section_ar->name_ar}}
+                        </h4>
+                    </div>
+                    <div class="cate-wrapper d-flex gx-4 align-items-center">
+                        <div class="img-wrapper">
+                            <img src="{{ url('public/Image/'.$category->image) }}"
+                            style="height: 150px; width: 150px;">
+                        </div>
+                        <div class="description" style="margin-top:5px">
+                            <h4>{{$category->name_ar}}</h4>
+                            <h4>{{$category->descrptions_ar}}</h4>
+                            <p>{{$category->price}} <img style="margin-top:5px" width="7%" src="{{asset('web/imgs/1.png')}}" alt=""></p>
+
+                            {{-- <i class="fa fa-dollar" style="font-size:48px;color:red"></i> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+@endforeach
+
+            @endif
+
+
+
+
+
+
+
         <div class="background-icons">
             <img src="{{asset('web/imgs/Shape 3 copy 2.svg')}}" alt="" class=" shape shape1">
             <img src="{{asset('web/imgs/2-layers (1).svg')}}"alt="" class="shape shape2">

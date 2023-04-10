@@ -1,5 +1,8 @@
 @extends('dashboard.layouts.app')
+
+
 @section('content')
+{{--  --}}
 <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
@@ -13,6 +16,16 @@
               <li class="breadcrumb-item"><a href="{{url('products/show')}}">@lang('site.products')</a></li>
               <li class="breadcrumb-item active">@lang('site.add')</li>
             </ol>
+
+            <ul>
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <li>
+                        <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                            {{ $properties['native'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
           </div>
         </div>
       </div>
@@ -40,16 +53,74 @@
             $i = 0 ;
 
         @endphp
-        @foreach ($p as $index=>$category)
-        @php
+
+@if (App::isLocale('ar'))
+@foreach ($x as $index=>$category1)
+
+@php
         $i ++;
 
     @endphp
             <tr>
                 <td>{{ $i }}</td>
 
-                <td>      {{ $category->name }} </td>
-                <td>{{ $category->descrptions }}</td>
+
+                <td>    {{ $category1->name_ar }} </td>
+                <td>{{ $category1->descrptions_ar }}</td>
+
+
+                <td>{{ $category1->price }}</td>
+
+            <td>
+                <img src="{{ url('public/Image/'.$category1->image) }}"
+                style="height: 50px; width: 50px;">
+            </td>
+
+
+        <td>  {{ $category1->section_ar->name_ar }}</td>
+
+
+
+
+                <td>
+
+                    <a href="{{url('products/edit')}}/{{$category1->id}}">edit</a>
+                    <a href="{{url('products/delete')}}/{{$category1->id}}">delete</a>
+                </td>
+
+
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@endforeach
+@endif
+
+@if (App::isLocale('en'))
+@foreach ($p as $index=>$category)
+
+@php
+        $i ++;
+
+    @endphp
+            <tr>
+                <td>{{ $i }}</td>
+
+
+                <td>    {{ $category->name_en }} </td>
+                <td>{{ $category->descrptions_en }}</td>
+
+
                 <td>{{ $category->price }}</td>
 
             <td>
@@ -57,12 +128,12 @@
                 style="height: 50px; width: 50px;">
             </td>
 
-            @if (App::isLocale('ar'))
-        <td>  {{ $category->section_ar->name }}</td>
-            @endif
-            @if (App::isLocale('en'))
-            <td>  {{ $category->section->name }}</td>
-                @endif
+
+        <td>  {{ $category->section->name_en }}</td>
+
+
+
+
                 <td>
 
                     <a href="{{url('products/edit')}}/{{$category->id}}">edit</a>
@@ -72,7 +143,75 @@
 
             </tr>
 
-        @endforeach
+
+
+
+
+
+
+
+
+
+
+
+
+@endforeach
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {{-- @foreach ($p as $index=>$category)
+        @foreach ($x as $index=>$category1)
+        @php
+        $i ++;
+
+    @endphp
+            <tr>
+                <td>{{ $i }}</td>
+                @if (App::isLocale('en'))
+
+                <td>    {{ $category->name_en }} </td>
+                <td>{{ $category->descrptions_en }}</td>
+                @endif
+                @if (App::isLocale('ar'))
+
+                <td>    {{ $category1->name_ar }} </td>
+                <td>{{ $category1->descrptions_ar }}</td>
+                @endif
+
+                <td>{{ $category->price }}</td>
+
+            <td>
+                <img src="{{ url('public/Image/'.$category->image) }}"
+                style="height: 50px; width: 50px;">
+            </td>
+
+            @if (App::isLocale('ar'))
+        <td>  {{ $category1->section_ar->name_ar }}</td>
+            @endif
+            @if (App::isLocale('en'))
+            <td>  {{ $category->section->name_en }}</td>
+                @endif
+                <td>
+
+                    <a href="{{url('products/edit')}}/{{$category->id}}">edit</a>
+                    <a href="{{url('products/delete')}}/{{$category->id}}">delete</a>
+                </td>
+
+
+            </tr> --}}
         </tbody>
 
     </table>

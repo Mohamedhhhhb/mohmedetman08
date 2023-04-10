@@ -21,11 +21,13 @@ class UserController extends Controller
 
   $user = DB::table('users')->where('email',$request->email)->first();
   if($user) {
+  //  $user = User::whereName($user)->wherePassword(Hash::make($password))->first();
+    //return $user ;
     $pass = Hash::check($request->password,$user->password);
     if ($pass) {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/home');
+            return redirect()->intended('/dashboard');
         }
 
         return redirect("login")->withSuccess('Login details are not valid');

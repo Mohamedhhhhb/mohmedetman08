@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('products_arbics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_ar');
             $table->string('price');
             $table->string('image');
-            $table->string('descrptions');
+            $table->string('descrptions_ar');
             $table->unsignedBigInteger('catageries_arbic_id');
            $table->foreign('catageries_arbic_id')->references('id')->on('catageries_arbics')->onDelete('cascade');
             $table->timestamps();

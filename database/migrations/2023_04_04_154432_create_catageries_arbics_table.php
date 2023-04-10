@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('catageries_arbics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('descrptions');
+            $table->string('name_ar');
+            $table->string('descrptions_ar');
             $table->string('image');
             $table->string('price');
             $table->timestamps();

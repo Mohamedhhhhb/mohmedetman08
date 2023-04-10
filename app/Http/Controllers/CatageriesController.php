@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CatageriesController extends Controller
 {
-    
+
 
 
     public function index()
@@ -24,7 +24,7 @@ class CatageriesController extends Controller
         if(Auth::check()){
             return view('dashboard.home');
         }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
     }
 
 
@@ -34,7 +34,7 @@ class CatageriesController extends Controller
             return view('catageries.add');
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
     }
 
 
@@ -43,76 +43,47 @@ class CatageriesController extends Controller
         if(Auth::check()){
 
             $filename="";
-            if (App::isLocale('en')) {
+
               $request->validate([
-                 'name' => 'required|unique:catageries|max:255',
-                 'descrption' => 'required',
+                'name_en' => 'required|unique:catageries|max:255',
+               'name_ar' => 'required|unique:catageries_arbics|max:255',
+                'description_en' => 'required',
+                'description_ar' => 'required',
                  'image'=>'required',
                  'price'=>'required',
 
              ]);
+            // return $request;
              if($request->file('image')){
                      $file= $request->file('image');
                      $filename= date('YmdHi').$file->getClientOriginalName();
                      $file-> move(public_path('public/Image'), $filename);
 
-
                  }
-
-
                  Catageries::create([
-                          'name' =>  $request->name,
-                          'descrptions'=>$request->descrption,
+                          'name_en' =>  $request->name_en,
+                          'descrptions_en'=>$request->description_en,
                           'image'=>$filename,
                           'price'=>$request->price,
 
                        ]);
-                       return redirect('catageries/show');
-
-
-             }
-
-
-
-
-             // }
-             else if (App::isLocale('ar')) {
-                 $request->validate([
-                     'name' => 'required|unique:catageries_arbics|max:255',
-                     'descrption' => 'required',
-                     'image'=>'required',
-                     'price'=>'required',
-
-                 ]);
-
-          if($request->file('image')){
-                     $file= $request->file('image');
-                     $filename= date('YmdHi').$file->getClientOriginalName();
-                     $file-> move(public_path('public/Image'), $filename);
-
-
-                 }
-
-
                  CatageriesArbic::create([
-                          'name' =>  $request->name,
-                          'descrptions'=>$request->descrption,
+                          'name_ar' =>  $request->name_ar,
+                          'descrptions_ar'=>$request->description_ar,
                           'image'=>$filename,
                           'price'=>$request->price,
                           'image'=>$filename,
                        ]);
-
-
 
                  return redirect('catageries/show');
 
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
         }
 
-    }
+
 
     public function show()
     {
@@ -126,7 +97,7 @@ class CatageriesController extends Controller
            }
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
     }
@@ -134,18 +105,16 @@ class CatageriesController extends Controller
     public function edit($id)
     {
         if(Auth::check()){
-            if (App::isLocale('en')){
+
                 $i= Catageries::findOrFail($id);
-                return view('catageries.edit',compact('i'));
-               // return route('/catageries/show');
-            }
-            if (App::isLocale('ar')){
-                $i= CatageriesArbic::findOrFail($id);
-                return view('catageries.edit',compact('i'));
-            }
+
+
+                $x= CatageriesArbic::findOrFail($id);
+                return view('catageries.edit',compact('i','x'));
+
         }
 
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
 
 
 
@@ -156,42 +125,33 @@ class CatageriesController extends Controller
     public function update(Request $request)
     {
         if(Auth::check()){
-            if (App::isLocale('en')){
+
                 $filename="";
                 if($request->file('image')){
                    $file= $request->file('image');
                    $filename= date('YmdHi').$file->getClientOriginalName();
                    $file-> move(public_path('public/Image'), $filename);
                }
-                $c= DB::table('catageries')
-                ->where('id',$request->id)
+                DB::table('catageries')
+                ->where('id',$request->id1)
                 ->update([
-                  'name' =>  $request->name,
-                  'descrptions'=>$request->descrption,
+                  'name_en' =>  $request->name_en,
+                  'descrptions_en'=>$request->description_en,
                   'image'=>$filename,
+                  'price'=>$request->price
+          ]);
+
+                DB::table('catageries_arbics')
+                ->where('id',$request->id2)
+                ->update([
+                  'name_ar' =>  $request->name_ar,
+                  'descrptions_ar'=>$request->description_ar,
+                  'image'=>$filename,
+                  'price'=>$request->price
           ]);
           return redirect('catageries/show');
-
-            }
-            else if (App::isLocale('ar')) {
-                $filename="";
-                if($request->file('image')){
-                   $file= $request->file('image');
-                   $filename= date('YmdHi').$file->getClientOriginalName();
-                   $file-> move(public_path('public/Image'), $filename);
-               }
-                $c= DB::table('catageries_arbics')
-                ->where('id',$request->id)
-                ->update([
-                  'name' =>  $request->name,
-                  'descrptions'=>$request->descrption,
-                  'image'=>$filename,
-          ]);
-          return redirect('catageries/show');
-
         }
-        return redirect("login")->withSuccess('You are not allowed to access');
-        }
+        return redirect("admin")->withSuccess('You are not allowed to access');
     }
 
     /**
@@ -201,16 +161,16 @@ class CatageriesController extends Controller
     {
         if(Auth::check()){
             if (App::isLocale('en')){
-                $res= Catageries::where('id',$id)->delete();
+                $res= Catageries::where('id',$id)->truncate();
                 return redirect('catageries/show');
 
             }
             if (App::isLocale('ar')){
-                $res= CatageriesArbic::where('id',$id)->delete();
+                $res= CatageriesArbic::where('id',$id)->truncate();
                 return redirect('catageries/show');
             }
         }
-        return redirect("login")->withSuccess('You are not allowed to access');
+        return redirect("admin")->withSuccess('You are not allowed to access');
     }
 
     public function getproducts($id)
@@ -219,7 +179,6 @@ class CatageriesController extends Controller
             $i = Catageries::findOrFail($id);
             $x= $i->products;
             return view('catageries.show_products',compact('x'));
-
 
         }
         if (App::isLocale('ar')){
@@ -230,7 +189,7 @@ class CatageriesController extends Controller
              return view('catageries.show_products',compact('x'));
         }
     }
-    return redirect("login")->withSuccess('You are not allowed to access');
+    return redirect("admin")->withSuccess('You are not allowed to access');
 
     }
 

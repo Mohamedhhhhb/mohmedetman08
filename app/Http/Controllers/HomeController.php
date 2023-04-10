@@ -13,7 +13,7 @@ class HomeController extends Controller
 
     function index (){
 
-        if(Auth::check()){
+
             if (App::isLocale('en')){
                 $x= Catageries::all();
                 return view('front-end.index',compact('x'));
@@ -22,14 +22,12 @@ class HomeController extends Controller
                 $x= CatageriesArbic::all();
                 return view('front-end.pageAR',compact('x'));
             }
-        }
-        return redirect("login")->withSuccess('You are not allowed to access');
 
 
     }
     function show ($id){
 
-        if(Auth::check()){
+
                 if (App::isLocale('en')){
                     $i = Catageries::findOrFail($id);
                     $x= $i->products;
@@ -40,8 +38,7 @@ class HomeController extends Controller
                              $x= $i->products_ar;
                              return view('front-end.category',compact('x'));
                         }
-                    }
-        return redirect("login")->withSuccess('You are not allowed to access');
+
 
         }
 
