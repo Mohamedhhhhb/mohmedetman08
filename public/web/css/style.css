@@ -26,7 +26,7 @@ body {
     overflow-x: hidden;
 }
 .title .logo {
-    margin: 90px auto 45px auto;
+    margin: 60px auto 45px auto;
 }
 @media (min-width: 768px) {
     .title .logo {
@@ -42,10 +42,26 @@ body {
 .menu-item {
     margin-bottom: 33px;
     z-index: 2;
+    height: 90px;
 }
 @media (min-width: 768px) {
     .menu-item {
         margin-bottom: 60px;
+    }
+}
+@media (min-width: 576px) and (max-width: 767px) {
+    .menu-item {
+        height: 110px;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .menu-item {
+        height: 150px;
+    }
+}
+@media (min-width: 992px) {
+    .menu-item {
+        height: 185px;
     }
 }
 .menu-item .menu-item-wrapper {

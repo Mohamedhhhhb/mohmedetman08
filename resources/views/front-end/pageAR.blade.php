@@ -29,6 +29,11 @@
     <body>
         <div class="title">
             <div class="container">
+                <div class="col-12">
+                    <a href="" type="button" class="btn btn-secondary">
+                        English</a>
+                    <a href="" type="button" class="btn btn-light"> Arabic</a>
+                </div>
                 <div class="logo text-center w-50">
                     <img src="{{asset('web/imgs/logo.png')}}" alt="">
                 </div>
@@ -38,26 +43,23 @@
         <div class="menu-list ">
             @foreach ($x as $index=>$category)
             <div class="menu-item">
-                <div class="container menu-item-wrapper">
-                    <a href="{{url('catageries/show')}}/{{$category->id}}">
-                        <div class="row gx-1">
-                            <div class="col-9">
+                <div class="container menu-item-wrapper h-100">
+                    <a href="{{url('catageries/show')}}/{{$category->id}}" class="d-block h-100">
+                        <div class="row gx-1 h-100">
+                            <div class="col-9 h-100">
                                 <div class="item-caption">
                                     <h3>{{$category->name_ar}}</h3>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-3 h-100">
                                 <div class="item-img-wrapper">
                                     <img src="{{ url('public/Image/'.$category->image) }}" class="item-img">
                                 </div>
-
                             </div>
                         </div>
                     </a>
                 </div>
             </div>
-
-
             @endforeach
         </div>
 
